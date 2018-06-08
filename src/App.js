@@ -30,6 +30,10 @@ class App extends Component {
     // use switchNameHandler without () to prevent it to be called immediately after the browser renders the page
     // events, supported by ReactJS:
     // https://reactjs.org/docs/events.html#supported-events
+    // if function looks like () => some_shit... , then react implicitly adds return statement before that shit
+    // this function isnamed 'anonimous'
+    // this.switchNameHandler.bind(this, 'Maximilian') can be written as:
+    // () => this.switchNameHandler('Maximilian')
     return (
       <div className="App">
         <header className="App-header">
