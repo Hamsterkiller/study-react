@@ -13,13 +13,13 @@ class App extends Component {
     ]
   }
 
-  switchNameHandler = () => {
+  switchNameHandler = (newName) => {
     // console.log('Was clicked!');
     // DO NOT DO THIS: this.state.persons[0].name = 'Maximilian';
     // Direct mutation if the state not allowed!
     this.setState({
     persons: [
-      {name: "Maximilian", age: "31"},
+      {name: newName, age: "31"},
       {name: "Helen", age: "19"},
       {name: "Mark", age: "28"}
     ]
@@ -39,9 +39,15 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={this.switchNameHandler}>Click!</button>
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age}> </Person>
-        <Person name={this.state.persons[1].name} age={this.state.persons[1].age}> </Person>
+        <button onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Click!</button>
+        <Person name={this.state.persons[0].name} 
+          age={this.state.persons[0].age} 
+          click = {this.switchNameHandler.bind(this, 'Max!')}> 
+        </Person>
+        <Person name={this.state.persons[1].name} 
+          age={this.state.persons[1].age} 
+          click = {this.switchNameHandler.bind(this, 'TestName')}> 
+        </Person>
       </div> 
       // return React.createElement('div', null, React.createElement('h1', null, 'Does this work now?'))
     ); 
