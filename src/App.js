@@ -26,6 +26,16 @@ class App extends Component {
    })
   }
 
+  nameChangedHandler = (event) => {
+    this.setState({
+    persons: [
+      {name: "Max", age: "31"},
+      {name: event.target.value, age: "23"},
+      {name: "Mark", age: "28"}
+    ]
+   })
+  }
+
   render() {
     // use switchNameHandler without () to prevent it to be called immediately after the browser renders the page
     // events, supported by ReactJS:
@@ -44,13 +54,14 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <button onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Click!</button>
-        <Person name={this.state.persons[0].name} 
+        <Person name = {this.state.persons[0].name} 
           age={this.state.persons[0].age} 
-          click = {this.switchNameHandler.bind(this, 'Max!')}> 
+          click={this.switchNameHandler.bind(this, 'Max!')}> 
         </Person>
         <Person name={this.state.persons[1].name} 
           age={this.state.persons[1].age} 
-          click = {this.switchNameHandler.bind(this, 'TestName')}> 
+          click={this.switchNameHandler.bind(this, 'TestName')}
+          changed={this.nameChangedHandler}> 
         </Person>
       </div> 
       // return React.createElement('div', null, React.createElement('h1', null, 'Does this work now?'))
