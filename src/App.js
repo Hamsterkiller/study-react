@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './Person/Person.css';
 import Person from './Person/Person'
+
 
 class App extends Component {
 
@@ -44,7 +46,17 @@ class App extends Component {
     // this function isnamed 'anonimous'
     // this.switchNameHandler.bind(this, 'Maximilian') can be written as:
     // () => this.switchNameHandler('Maximilian')
+
+    const style = {
+        backgroundColor: 'white',
+        font: 'inherit',
+        border: '1px solid blue',
+        padding: '5px',
+        cursor: 'pointer'
+      };
+
     return (
+
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
@@ -53,7 +65,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Click!</button>
+        <button style={style} onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Click!</button>
         <Person name = {this.state.persons[0].name} 
           age={this.state.persons[0].age} 
           click={this.switchNameHandler.bind(this, 'Max!')}> 
