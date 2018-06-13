@@ -12,7 +12,8 @@ class App extends Component {
       {name: "Max", age: "31"},
       {name: "Helen", age: "19"},
       {name: "Mark", age: "27"}
-    ]
+    ],
+    showPersons: false
   }
 
   switchNameHandler = (newName) => {
@@ -28,6 +29,15 @@ class App extends Component {
    })
   }
 
+  deletePersonHandler = (personIndex) => {
+    // create a copy of state by splice() without args to maintain state-imutability
+    // const persons = this.state.persons.slice();
+    // ES6 analog (like [].extend(...) in Python):
+    const persons = [...this.state.persons]
+    persons.splice(personIndex, 1)
+    this.setState({persons: persons})
+  }
+
   nameChangedHandler = (event) => {
     this.setState({
     persons: [
@@ -38,6 +48,13 @@ class App extends Component {
    })
   }
 
+  // show/hide function
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
+  }
+
+  // everything inside render method is executed, when react re-renders the content of the page
   render() {
     // use switchNameHandler without () to prevent it to be called immediately after the browser renders the page
     // events, supported by ReactJS:
@@ -55,6 +72,20 @@ class App extends Component {
         cursor: 'pointer'
       };
 
+      let persons = null;
+
+      if (this.state.showPersons) {
+        persons = (
+          <div>
+            {this.state.persons.map((person, index) => {
+              return (
+                  <Person name={person.name} age={person.age} click={() => this.deletePersonHandler(index)} />
+                );
+            })}
+          </div>
+          );
+      }
+
     return (
 
       <div className="App">
@@ -65,16 +96,8 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <button style={style} onClick={this.switchNameHandler.bind(this, 'Maximilian')}>Click!</button>
-        <Person name = {this.state.persons[0].name} 
-          age={this.state.persons[0].age} 
-          click={this.switchNameHandler.bind(this, 'Max!')}> 
-        </Person>
-        <Person name={this.state.persons[1].name} 
-          age={this.state.persons[1].age} 
-          click={this.switchNameHandler.bind(this, 'TestName')}
-          changed={this.nameChangedHandler}> 
-        </Person>
+        <button style={style} onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        {persons}
       </div> 
       // return React.createElement('div', null, React.createElement('h1', null, 'Does this work now?'))
     ); 
