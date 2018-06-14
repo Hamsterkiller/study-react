@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import './Person/Person.css';
-import Person from './Person/Person'
+import Person from './Person/Person';
 
 
 class App extends Component {
 
   state = {
     persons: [
-      {name: "Max", age: "31"},
-      {name: "Helen", age: "19"},
-      {name: "Mark", age: "27"}
+      {id: '1', name: "Max", age: "31"},
+      {id: '2', name: "Helen", age: "19"},
+      {id: '3', name: "Mark", age: "27"}
     ],
     showPersons: false
   }
@@ -26,26 +26,36 @@ class App extends Component {
       {name: "Helen", age: "19"},
       {name: "Mark", age: "28"}
     ]
-   })
+   });
   }
 
   deletePersonHandler = (personIndex) => {
     // create a copy of state by splice() without args to maintain state-imutability
     // const persons = this.state.persons.slice();
     // ES6 analog (like [].extend(...) in Python):
-    const persons = [...this.state.persons]
-    persons.splice(personIndex, 1)
-    this.setState({persons: persons})
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
   }
 
-  nameChangedHandler = (event) => {
-    this.setState({
-    persons: [
-      {name: "Max", age: "31"},
-      {name: event.target.value, age: "23"},
-      {name: "Mark", age: "28"}
-    ]
-   })
+  nameChangedHandler = (event, id) => {
+    
+    // findIndex will check every element of the array for the condition function beeing passed
+    // and return indices of elelments, for which condition is true
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    // not mutate state - use ... (spread) operator
+    const person = {...this.state.persons[personIndex]};
+
+    person.name = event.target.value;
+
+    // not mutate - use ... (spread) operator
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState( {persons: persons} );
   }
 
   // show/hide function
@@ -70,7 +80,7 @@ class App extends Component {
         border: '1px solid blue',
         padding: '5px',
         cursor: 'pointer'
-      };
+    };
 
       let persons = null;
 
@@ -79,12 +89,17 @@ class App extends Component {
           <div>
             {this.state.persons.map((person, index) => {
               return (
-                  <Person name={person.name} age={person.age} click={() => this.deletePersonHandler(index)} />
+                  <Person 
+                    name={person.name} 
+                    age={person.age} 
+                    click={() => this.deletePersonHandler(index)} 
+                    key={person.id}
+                    changed={(event) => this.nameChangedHandler(event, person.id)} />
                 );
             })}
           </div>
           );
-      }
+    }
 
     return (
 
