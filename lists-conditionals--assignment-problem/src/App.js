@@ -1,22 +1,41 @@
 import React, { Component } from 'react';
 import './App.css';
 import ValidationComponent from './ValidationComponent';
+import Char from './CharComponent';
 
 class App extends Component {
 
   state = {
-    text_length: 0
+    text_length: 0,
+    char_array: []
   };
 
   calcLength = (event) => {
 
     const text_length = event.target.value.length;
 
-    this.setState( {text_length: text_length} );
+    const char_array = event.target.value.split('');
+
+    this.setState( {text_length: text_length, char_array: char_array} );
 
   }
 
+  deleteCharHandler = (index) => {
+    const text = this.state.char_array;
+    text.splice(index, 1);
+    const updatedText = text.join('');
+    this.setState({char_array: updatedText});
+  }
+
   render() {
+
+    const charList = this.state.char_array.map((ch, index) => {
+      return <Char 
+        character={ch} 
+        key={index}
+        clicked={() => this.deleteCharHandler(index)} />;
+    });
+
     return (
       <div className="App">
         <h1 align="center"> Assignment: </h1>
@@ -35,6 +54,7 @@ class App extends Component {
         <input id="input_field" type="text" onChange={(s) => this.calcLength(s)} />
         <p> {this.state.text_length} </p>
         <ValidationComponent text_length={this.state.text_length} />
+        {charList}
 
       </div>
     );
