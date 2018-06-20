@@ -6,30 +6,23 @@ import Char from './CharComponent';
 class App extends Component {
 
   state = {
-    text_length: 0,
-    char_array: []
+    userInput: '' 
   };
 
-  calcLength = (event) => {
-
-    const text_length = event.target.value.length;
-
-    const char_array = event.target.value.split('');
-
-    this.setState( {text_length: text_length, char_array: char_array} );
-
+  inputChangedHandler = (event) => {
+    this.setState({userInput: event.target.value});
   }
 
   deleteCharHandler = (index) => {
-    const text = this.state.char_array;
+    const text = this.state.userInput.split('');
     text.splice(index, 1);
     const updatedText = text.join('');
-    this.setState({char_array: updatedText});
+    this.setState({userInput: updatedText});
   }
 
   render() {
 
-    const charList = this.state.char_array.map((ch, index) => {
+    const charList = this.state.userInput.split('').map((ch, index) => {
       return <Char 
         character={ch} 
         key={index}
@@ -51,9 +44,9 @@ class App extends Component {
 
         <h1 align="center"> Solution: </h1>
 
-        <input id="input_field" type="text" onChange={(s) => this.calcLength(s)} />
+        <input id="input_field" type="text" onChange={this.inputChangedHandler} value={this.state.userInput} />
         <p> {this.state.text_length} </p>
-        <ValidationComponent text_length={this.state.text_length} />
+        <ValidationComponent text={this.state.userInput} />
         {charList}
 
       </div>

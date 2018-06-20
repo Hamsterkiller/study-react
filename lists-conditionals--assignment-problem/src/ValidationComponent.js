@@ -3,8 +3,8 @@ import './App.css';
 
 const validation = (props) => {
 
-	const validate = (len) => {
-		if (len < 5) {
+	const validate = (text) => {
+		if (text.length < 5) {
 			return 'The text is too short!'
 		} else {
 			return 'The text is long enough.'
@@ -13,7 +13,7 @@ const validation = (props) => {
 
 	return (
 		<div>
-			<p> Length of the input text is: {props.text_length}. {validate(props.text_length)} </p>
+			<p> Length of the input text is: {props.text.length}. {validate(props.text)} </p>
 		</div>
 	);
 };
